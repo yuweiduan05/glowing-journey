@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string",
+      "enum": [
+        "LOGISTICS",
+        "QUALITY",
+        "RETURN",
+        "INVOICE",
+        "OTHER"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "S2",
+        "S3",
+        "S4"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 200
+    },
+    "order_no": {
+      "type": "string",
+      "pattern": "^SO-\\d{8}-\\d{3}$"
+    },
+    "sku": {
+      "type": "string",
+      "pattern": "^SKU-[A-Z0-9]{6}$"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "required": [
+    "category",
+    "severity",
+    "summary",
+    "idempotency_key"
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

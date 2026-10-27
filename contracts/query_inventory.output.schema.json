@@ -1,0 +1,139 @@
+{
+  "type": "object",
+  "properties": {
+    "sku": {
+      "type": "string",
+      "pattern": "^SKU-[A-Z0-9]{6}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "warehouse": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "WH-SZ",
+            "WH-GZ",
+            "WH-SH"
+          ]
+        },
+        {
+          "type": "string",
+          "const": "ALL"
+        }
+      ]
+    },
+    "on_hand": {
+      "type": "integer"
+    },
+    "reserved": {
+      "type": "integer"
+    },
+    "available": {
+      "type": "integer"
+    },
+    "safety_stock": {
+      "type": "integer"
+    },
+    "below_safety": {
+      "type": "boolean"
+    },
+    "in_transit": {
+      "type": "integer"
+    },
+    "restock_eta": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "substitutes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string",
+            "pattern": "^SKU-[A-Z0-9]{6}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer"
+          },
+          "compatibility": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "similar",
+              "upgrade"
+            ]
+          }
+        },
+        "required": [
+          "sku",
+          "name",
+          "available",
+          "compatibility"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "by_warehouse": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warehouse": {
+            "type": "string",
+            "enum": [
+              "WH-SZ",
+              "WH-GZ",
+              "WH-SH"
+            ]
+          },
+          "on_hand": {
+            "type": "integer"
+          },
+          "reserved": {
+            "type": "integer"
+          },
+          "available": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "warehouse",
+          "on_hand",
+          "reserved",
+          "available"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "quantity_basis": {
+      "type": "string",
+      "enum": [
+        "available",
+        "on_hand"
+      ]
+    }
+  },
+  "required": [
+    "sku",
+    "name",
+    "warehouse",
+    "on_hand",
+    "reserved",
+    "available",
+    "safety_stock",
+    "below_safety",
+    "in_transit",
+    "restock_eta",
+    "substitutes"
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

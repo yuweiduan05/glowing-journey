@@ -1,0 +1,32 @@
+{
+  "name": "sales-agent-platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "面向中小贸易企业的售前-库存-售后一体化业务智能体（场景3为主体，场景2 RAG 内嵌为工具）",
+  "engines": {
+    "node": ">=22.5.0",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "build:shared": "pnpm --filter @app/shared build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "dev:business": "pnpm --filter @app/business-api dev",
+    "dev:gateway": "pnpm --filter @app/gateway dev",
+    "dev:web": "pnpm --filter @app/web dev",
+    "dev:rag": "node scripts/run-rag.mjs",
+    "dev": "pnpm build:shared && concurrently -n api,gateway,rag,web -c blue,green,yellow,magenta \"pnpm dev:business\" \"pnpm dev:gateway\" \"pnpm dev:rag\" \"pnpm dev:web\"",
+    "contracts": "pnpm --filter @app/gateway exec tsx scripts/export-contracts.ts",
+    "eval:rag": "node scripts/run-eval.mjs",
+    "ci:local": "pnpm build:shared && pnpm -r typecheck && pnpm test && pnpm contracts"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "typescript": "^5.6.3",
+    "tsx": "^4.19.2",
+    "@types/node": "^22.9.0",
+    "@app/shared": "workspace:*"
+  },
+  "packageManager": "pnpm@12.3.4"
+}

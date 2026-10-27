@@ -1,0 +1,95 @@
+# 四个容器：web / gateway / business-api / rag
+# 用法：cp .env.example .env && docker compose up --build
+services:
+  business-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.node
+      target: business-api
+    environment:
+      BUSINESS_API_PORT: 8082
+      BUSINESS_DB_PATH: /data/business.db
+      BUSINESS_SEED: "1"
+      BUSINESS_CHAOS_ENABLED: "1"
+      TICKET_RATE_LIMIT: "5"
+      LOG_LEVEL: info
+    volumes:
+      - biz-data:/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8082/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    # 不对外暴露：customer_id 只能由网关注入，业务服务留在内网
+    expose:
+      - "8082"
+
+  gateway:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.node
+      target: gateway
+    environment:
+      GATEWAY_PORT: 8081
+      BUSINESS_API_BASE_URL: http://business-api:8082
+      RAG_BASE_URL: http://rag:8083
+      MODEL_PROVIDER: ${MODEL_PROVIDER:-mock}
+      MODEL_API_KEY: ${MODEL_API_KEY:-}
+      MODEL_BASE_URL: ${MODEL_BASE_URL:-https://api.openai.com/v1}
+      MODEL_NAME: ${MODEL_NAME:-gpt-4o-mini}
+      MODEL_FALLBACK_API_KEY: ${MODEL_FALLBACK_API_KEY:-}
+      MODEL_FALLBACK_BASE_URL: ${MODEL_FALLBACK_BASE_URL:-}
+      MODEL_FALLBACK_NAME: ${MODEL_FALLBACK_NAME:-}
+      AUTH_TOKENS: ${AUTH_TOKENS:-demo-token:C-10087,demo-token-2:C-10099}
+      PROXY_MAX_RETRIES: "2"
+      PROXY_RETRY_BASE_MS: "300"
+      CIRCUIT_FAILURE_THRESHOLD: "5"
+      CIRCUIT_COOLDOWN_MS: "15000"
+      LOG_LEVEL: info
+    depends_on:
+      business-api:
+        condition: service_started
+      rag:
+        condition: service_started
+    expose:
+      - "8081"
+
+  rag:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.rag
+    environment:
+      KB_DIR: /data/kb
+      CHROMA_DIR: /data/chroma
+      MANIFEST_PATH: /data/manifest.json
+      VECTOR_STORE: ${VECTOR_STORE:-chroma}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-hash}
+      EMBEDDING_DIM: ${EMBEDDING_DIM:-512}
+      RAG_LLM_PROVIDER: ${RAG_LLM_PROVIDER:-mock}
+      RAG_LLM_API_KEY: ${RAG_LLM_API_KEY:-}
+      RAG_LLM_BASE_URL: ${RAG_LLM_BASE_URL:-https://api.openai.com/v1}
+      RAG_LLM_MODEL: ${RAG_LLM_MODEL:-gpt-4o-mini}
+      CHUNK_SIZE: "800"
+      CHUNK_OVERLAP: "120"
+      FILTER_THRESHOLD: "0.35"
+      MAX_RETRY: "2"
+    volumes:
+      - ./data/kb:/data/kb:ro
+      - rag-data:/data
+    expose:
+      - "8083"
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+      args:
+        VITE_GATEWAY_URL: ""
+    depends_on:
+      - gateway
+    ports:
+      - "5173:5173"
+
+volumes:
+  biz-data:
+  rag-data:

@@ -1,0 +1,18 @@
+# RAG 服务依赖（Python 3.11+；本工程在 3.13 上验证）
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.32,<1.0
+pydantic>=2.9,<3.0
+
+# 状态图（六节点 + 条件边）
+langgraph>=0.2.40
+
+# 测试依赖：契约实例级校验（tests/test_contract.py）
+jsonschema>=4.17
+
+# 向量库
+chromadb>=0.5
+
+# 说明：
+# - 默认 embedding 使用内置 hash 实现（零依赖、离线、确定性），
+#   如需 bge-small-zh，额外安装 sentence-transformers + torch 并设 EMBEDDING_PROVIDER=bge；
+# - 若 chromadb 安装失败，设 VECTOR_STORE=local 即可用内置 JSONL 向量库（接口一致）。

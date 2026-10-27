@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "properties": {
+    "ticket_no": {
+      "type": "string",
+      "pattern": "^TK-\\d{8}-\\d{4}$"
+    },
+    "deduplicated": {
+      "type": "boolean"
+    },
+    "sla_due_at": {
+      "type": "string"
+    },
+    "owner_group": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "ticket_no",
+    "deduplicated",
+    "sla_due_at",
+    "owner_group"
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

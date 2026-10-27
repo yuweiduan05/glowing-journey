@@ -1,0 +1,122 @@
+{
+  "version": "e95af0a924f5",
+  "built_at": "2026-10-22T10:22:32.901544+00:00",
+  "signature": "hash:hash-ngram-512:512|800/120/8",
+  "chunk_size": 800,
+  "chunk_overlap": 120,
+  "table_row_group": 8,
+  "embedding": "hash:hash-ngram-512:512",
+  "total_chunks": 96,
+  "documents": [
+    {
+      "doc_id": "kb-001",
+      "title": "压力传感器 PX-200 产品手册",
+      "doc_type": "product_manual",
+      "product_line": "industrial-sensor",
+      "file": "kb-001-product-manual-px200.md",
+      "chunks": 7
+    },
+    {
+      "doc_id": "kb-002",
+      "title": "激光打印机 LP-4500 产品手册",
+      "doc_type": "product_manual",
+      "product_line": "office-printer",
+      "file": "kb-002-product-manual-lp4500.md",
+      "chunks": 8
+    },
+    {
+      "doc_id": "kb-003",
+      "title": "仓储耗材产品目录与选型规格",
+      "doc_type": "product_manual",
+      "product_line": "warehouse-consumable",
+      "file": "kb-003-product-manual-consumables.md",
+      "chunks": 8
+    },
+    {
+      "doc_id": "kb-004",
+      "title": "售前常见问题 FAQ",
+      "doc_type": "faq",
+      "product_line": "general",
+      "file": "kb-004-faq-presales.md",
+      "chunks": 10
+    },
+    {
+      "doc_id": "kb-005",
+      "title": "物流与配送常见问题",
+      "doc_type": "faq",
+      "product_line": "general",
+      "file": "kb-005-faq-logistics.md",
+      "chunks": 10
+    },
+    {
+      "doc_id": "kb-006",
+      "title": "保修与售后 FAQ",
+      "doc_type": "faq",
+      "product_line": "general",
+      "file": "kb-006-faq-warranty.md",
+      "chunks": 10
+    },
+    {
+      "doc_id": "kb-007",
+      "title": "产品保修政策（2026 版）",
+      "doc_type": "policy",
+      "product_line": "general",
+      "file": "kb-007-policy-warranty.md",
+      "chunks": 8
+    },
+    {
+      "doc_id": "kb-008",
+      "title": "退换货政策与操作规范",
+      "doc_type": "policy",
+      "product_line": "general",
+      "file": "kb-008-policy-return.md",
+      "chunks": 7
+    },
+    {
+      "doc_id": "kb-009",
+      "title": "发票开具与结算政策",
+      "doc_type": "policy",
+      "product_line": "general",
+      "file": "kb-009-policy-invoice.md",
+      "chunks": 6
+    },
+    {
+      "doc_id": "kb-010",
+      "title": "三仓发货规则与截单时间",
+      "doc_type": "wiki",
+      "product_line": "general",
+      "file": "kb-010-wiki-warehouse.md",
+      "chunks": 7
+    },
+    {
+      "doc_id": "kb-011",
+      "title": "选型指南：Sensors & Printers Selection Guide（中英对照）",
+      "doc_type": "wiki",
+      "product_line": "general",
+      "file": "kb-011-wiki-selection.md",
+      "chunks": 8
+    },
+    {
+      "doc_id": "kb-012",
+      "title": "售后工单处理 SOP",
+      "doc_type": "wiki",
+      "product_line": "general",
+      "file": "kb-012-wiki-ticket-sop.md",
+      "chunks": 7
+    }
+  ],
+  "docs": {
+    "kb-001-product-manual-px200.md": "4a65b35d46f68e7d77842a199b22855aae473d1c3583fb07873313f9090db19a",
+    "kb-002-product-manual-lp4500.md": "9ce9f221320fce9fead38dffb3d83f4163648ba4b4e52a702c275fded4f7428a",
+    "kb-003-product-manual-consumables.md": "e34b86c18bbfe09747a90a4faa10f441befa723a4e4a96ee136a6696945f9d5e",
+    "kb-004-faq-presales.md": "98f931e6685b8cbc6f385ffd0eb0001690352e79df90778f0504155e872c1298",
+    "kb-005-faq-logistics.md": "fa9b505726f47679b71ad4ab990e8a34345852fe4144e9cbb277a52df6d25b8e",
+    "kb-006-faq-warranty.md": "66b5cf4aa00db07dd0d9b5efbd04e75bbac1a2e23fb452bfdc0dcdc3a375fdd6",
+    "kb-007-policy-warranty.md": "a3995e076491914612bb3c16226459a64b103f0e63aca5220abf880546dbe972",
+    "kb-008-policy-return.md": "9b467ee7b93f5e38286ac203d91d1c1b18f7457c23053546fbc730b13c03e008",
+    "kb-009-policy-invoice.md": "73c9b4857110bd29ffc7a186f3afcc87e1b82769b1cd2e63b1d73f733b6807c8",
+    "kb-010-wiki-warehouse.md": "e3480b14c545d4c8efe820bd9694ecf1af9df0fa0d34495622841ed06da19419",
+    "kb-011-wiki-selection.md": "9e8111e47545a3dad5614739907ff4ae69062a3a53907fa889ca41c99590cb6f",
+    "kb-012-wiki-ticket-sop.md": "f455b4049ca97d06700873b08f7aa0c217c17e7a9eb4e24cfb4a069ad97a12f3"
+  }
+}

@@ -1,0 +1,20 @@
+FROM python:3.13-slim
+
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+COPY services/rag/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY services/rag/app ./app
+
+# 知识库与向量库目录由 compose 挂载到 /data
+ENV KB_DIR=/data/kb \
+    CHROMA_DIR=/data/chroma \
+    MANIFEST_PATH=/data/manifest.json \
+    VECTOR_STORE=chroma
+
+EXPOSE 8083
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8083"]

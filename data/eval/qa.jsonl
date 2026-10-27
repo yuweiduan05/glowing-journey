@@ -1,0 +1,36 @@
+{"id":"q01","question":"PX-200 的精度和量程是多少？","expected_docs":["kb-001"],"expected_boundary":"in_kb"}
+{"id":"q02","question":"PX-200 的防护等级和供电电压是多少？","expected_docs":["kb-001"],"expected_boundary":"in_kb"}
+{"id":"q03","question":"压力传感器安装时拧紧力矩要求多少？","expected_docs":["kb-001"],"expected_boundary":"in_kb"}
+{"id":"q04","question":"PX-200 无输出信号一般是什么原因？","expected_docs":["kb-001"],"expected_boundary":"in_kb"}
+{"id":"q05","question":"压力传感器多久需要校准一次？","expected_docs":["kb-001","kb-007"],"expected_boundary":"in_kb"}
+{"id":"q06","question":"LP-4500 一分钟能打印多少页？","expected_docs":["kb-002"],"expected_boundary":"in_kb"}
+{"id":"q07","question":"LP-4500 的原装硒鼓寿命是多少页？","expected_docs":["kb-002"],"expected_boundary":"in_kb"}
+{"id":"q08","question":"打印机出现纵向黑线应该检查什么？","expected_docs":["kb-002"],"expected_boundary":"in_kb"}
+{"id":"q09","question":"PE 缠绕膜有哪些宽度规格？","expected_docs":["kb-003"],"expected_boundary":"in_kb"}
+{"id":"q10","question":"热敏标签纸能保存多久？","expected_docs":["kb-003"],"expected_boundary":"in_kb"}
+{"id":"q11","question":"防静电周转箱的静载和动载是多少？","expected_docs":["kb-003"],"expected_boundary":"in_kb"}
+{"id":"q12","question":"批量采购有折扣吗？","expected_docs":["kb-004"],"expected_boundary":"in_kb"}
+{"id":"q13","question":"报价单有效期是多久？","expected_docs":["kb-004"],"expected_boundary":"in_kb"}
+{"id":"q14","question":"新客户可以申请账期结算吗？","expected_docs":["kb-004"],"expected_boundary":"in_kb"}
+{"id":"q15","question":"今天下单今天能发货吗？截单时间是什么时候？","expected_docs":["kb-004","kb-005","kb-010"],"expected_boundary":"in_kb"}
+{"id":"q16","question":"发货后广东省内多久能收到？","expected_docs":["kb-005"],"expected_boundary":"in_kb"}
+{"id":"q17","question":"运费怎么计算，满多少包邮？","expected_docs":["kb-005"],"expected_boundary":"in_kb"}
+{"id":"q18","question":"外箱破损应该怎么理赔？","expected_docs":["kb-005","kb-008"],"expected_boundary":"in_kb"}
+{"id":"q19","question":"你们的产品保修期是多久？","expected_docs":["kb-006","kb-007"],"expected_boundary":"in_kb"}
+{"id":"q20","question":"保修期内维修要收费吗？","expected_docs":["kb-006","kb-007"],"expected_boundary":"in_kb"}
+{"id":"q21","question":"换货需要什么条件？","expected_docs":["kb-006","kb-008"],"expected_boundary":"in_kb"}
+{"id":"q22","question":"哪些情况不在保修范围内？","expected_docs":["kb-007"],"expected_boundary":"in_kb"}
+{"id":"q23","question":"维修更换的配件保修多久？","expected_docs":["kb-006","kb-007"],"expected_boundary":"in_kb"}
+{"id":"q24","question":"无理由退货的运费谁承担？","expected_docs":["kb-008"],"expected_boundary":"in_kb"}
+{"id":"q25","question":"定制型号可以退换货吗？","expected_docs":["kb-008"],"expected_boundary":"in_kb"}
+{"id":"q26","question":"增值税专用发票几个工作日能开出来？","expected_docs":["kb-009"],"expected_boundary":"in_kb"}
+{"id":"q27","question":"发票丢失了还能抵扣吗？","expected_docs":["kb-009"],"expected_boundary":"in_kb"}
+{"id":"q28","question":"广州仓的截单时间是几点？","expected_docs":["kb-010"],"expected_boundary":"in_kb"}
+{"id":"q29","question":"机床液压站应该选哪个压力传感器型号？","expected_docs":["kb-011","kb-001"],"expected_boundary":"in_kb"}
+{"id":"q30","question":"S2 级工单多久要首次响应？","expected_docs":["kb-012"],"expected_boundary":"in_kb"}
+{"id":"q31","question":"售后工单摘要必须写清哪些内容？","expected_docs":["kb-012"],"expected_boundary":"in_kb"}
+{"id":"q32","question":"我们公司的股权结构是怎样的？","expected_docs":[],"expected_boundary":"insufficient"}
+{"id":"q33","question":"你们支持比特币付款吗？","expected_docs":[],"expected_boundary":"out_of_scope"}
+{"id":"q34","question":"你们公司在纳斯达克的股价是多少？","expected_docs":[],"expected_boundary":"out_of_scope"}
+{"id":"q35","question":"车间员工的薪资待遇怎么样？","expected_docs":[],"expected_boundary":"out_of_scope"}
+{"id":"q36","question":"明年原材料价格会涨吗？","expected_docs":[],"expected_boundary":"insufficient"}

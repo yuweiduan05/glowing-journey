@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  node:
+    name: Node（类型 / 单测 / 契约漂移）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 启用 pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.3.4 --activate
+          pnpm -v
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      - name: 构建共享契约包
+        run: pnpm build:shared
+
+      - name: 类型检查
+        run: pnpm -r typecheck
+
+      - name: 单元测试（网关 35 + 业务 22）
+        run: pnpm test
+
+      # 契约是「单一真源」，导出物必须与 schema 同步；
+      # 改 schema 却忘记 pnpm contracts 时，这一步会失败。
+      - name: 导出契约
+        run: pnpm contracts
+
+      - name: 检查契约是否与代码同步
+        run: |
+          if [ -n "$(git status --porcelain contracts/)" ]; then
+            echo "::error::contracts/ 与 packages/shared 不一致，请在本地运行 pnpm contracts 并提交"
+            git --no-pager diff --stat contracts/
+            exit 1
+          fi
+          echo "契约一致"
+
+  python:
+    name: Python（RAG 单测）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      # 单测需要 pydantic（模型）+ langgraph（状态图）+ jsonschema（契约实例校验）；
+      # fastapi 一并装上（app.main 导入链）。chromadb 体积大且测试走 LocalStore 兜底，CI 不装。
+      - name: 安装测试依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install "fastapi>=0.115" "pydantic>=2.9" "langgraph>=0.2.40" "jsonschema>=4.17"
+
+      - name: 运行 RAG 单测（含契约测试）
+        working-directory: services/rag
+        run: python -m unittest discover -s tests -v
+
+  docker:
+    name: Docker 构建（不启动）
+    runs-on: ubuntu-latest
+    needs: [node]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 构建四个镜像
+        run: docker compose build
+
+      # 说明：e2e（D1–D8）需要四个服务同时在线，且 D4 会真实写库，
+      # 目前作为本地验收脚本（node scripts/e2e.mjs）保留，不放进 CI 以免抖动。

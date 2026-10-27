@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "order_no": {
+      "type": "string",
+      "pattern": "^SO-\\d{8}-\\d{3}$"
+    },
+    "phone_tail": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$"
+    }
+  },
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "code": "INVALID_ARGUMENT",
+    "http_status": 400
+  },
+  {
+    "code": "UNAUTHORIZED",
+    "http_status": 401
+  },
+  {
+    "code": "FORBIDDEN_DATA_SCOPE",
+    "http_status": 403
+  },
+  {
+    "code": "NOT_FOUND",
+    "http_status": 404
+  },
+  {
+    "code": "DUPLICATE_TICKET",
+    "http_status": 409
+  },
+  {
+    "code": "TOOL_ARGS_INVALID",
+    "http_status": 422
+  },
+  {
+    "code": "RATE_LIMITED",
+    "http_status": 429
+  },
+  {
+    "code": "UPSTREAM_MODEL_ERROR",
+    "http_status": 502
+  },
+  {
+    "code": "RAG_UNAVAILABLE",
+    "http_status": 503
+  },
+  {
+    "code": "CIRCUIT_OPEN",
+    "http_status": 503
+  },
+  {
+    "code": "TOOL_TIMEOUT",
+    "http_status": 504
+  },
+  {
+    "code": "TOOL_UPSTREAM_ERROR",
+    "http_status": 502
+  },
+  {
+    "code": "INTERNAL_ERROR",
+    "http_status": 500
+  }
+]

@@ -1,0 +1,13 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+  - "services/business-api"
+
+# esbuild 的 postinstall 只做二进制自检；本机沙箱无法加载 winmm.dll 会误报失败，
+# 而平台包 @esbuild/win32-x64 已由 pnpm 正常安装，运行时不需要该自检。
+# 真机（普通 Windows/macOS）如需完整自检，把 false 改成 true。
+allowBuilds:
+  esbuild: false
+
+# 未批准的构建脚本不阻断 install（避免 CI 因非零退出码误判）
+strictDepBuilds: false

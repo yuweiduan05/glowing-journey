@@ -1,0 +1,38 @@
+[
+  {
+    "event": "meta",
+    "direction": "server->client"
+  },
+  {
+    "event": "thought",
+    "direction": "server->client"
+  },
+  {
+    "event": "tool_call",
+    "direction": "server->client"
+  },
+  {
+    "event": "tool_result",
+    "direction": "server->client"
+  },
+  {
+    "event": "token",
+    "direction": "server->client"
+  },
+  {
+    "event": "citation",
+    "direction": "server->client"
+  },
+  {
+    "event": "handoff",
+    "direction": "server->client"
+  },
+  {
+    "event": "done",
+    "direction": "server->client"
+  },
+  {
+    "event": "error",
+    "direction": "server->client"
+  }
+]

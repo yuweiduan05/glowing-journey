@@ -1,0 +1,131 @@
+{
+  "type": "object",
+  "properties": {
+    "order_no": {
+      "type": "string",
+      "pattern": "^SO-\\d{8}-\\d{3}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "CREATED",
+        "PAID",
+        "PICKING",
+        "SHIPPED",
+        "DELIVERED",
+        "CLOSED",
+        "REFUNDING"
+      ]
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string",
+            "pattern": "^SKU-[A-Z0-9]{6}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "qty": {
+            "type": "integer",
+            "exclusiveMinimum": 0
+          },
+          "shipped_qty": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unit_price": {
+            "type": "number",
+            "multipleOf": 0.01
+          }
+        },
+        "required": [
+          "sku",
+          "name",
+          "qty",
+          "shipped_qty",
+          "unit_price"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "amounts": {
+      "type": "object",
+      "properties": {
+        "goods": {
+          "type": "number",
+          "multipleOf": 0.01
+        },
+        "discount": {
+          "type": "number",
+          "multipleOf": 0.01
+        },
+        "freight": {
+          "type": "number",
+          "multipleOf": 0.01
+        },
+        "payable": {
+          "type": "number",
+          "multipleOf": 0.01
+        }
+      },
+      "required": [
+        "goods",
+        "discount",
+        "freight",
+        "payable"
+      ],
+      "additionalProperties": false
+    },
+    "shipment": {
+      "type": "object",
+      "properties": {
+        "carrier": {
+          "type": "string"
+        },
+        "tracking_no": {
+          "type": "string"
+        },
+        "eta": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "carrier",
+        "tracking_no",
+        "eta"
+      ],
+      "additionalProperties": false
+    },
+    "ticket_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ambiguous": {
+      "type": "boolean"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "order_no",
+    "status",
+    "lines",
+    "amounts",
+    "ticket_ids"
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

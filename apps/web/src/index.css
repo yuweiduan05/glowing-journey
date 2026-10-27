@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --canvas: #ffffff;
+  --subtle: #fafafa;
+  --surface: #f4f4f5;
+  --line: #e8e8ec;
+  --ink: #1d1e20;
+  --muted: #6b6b73;
+  --faint: #9a9aa2;
+  --accent: #2563eb;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: '"PingFang SC"', 'Microsoft YaHei', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(37, 99, 235, 0.5);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* 输入区已经有 focus-within 边框，再叠一圈 outline 会变成双层框 */
+textarea:focus-visible {
+  outline: none;
+}
+
+/* 输入区已经有 focus-within 边框，再叠一圈 outline 会变成双层框 */
+textarea:focus-visible {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dcdce2;
+  border: 3px solid #fff;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c4c4cc;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@layer components {
+  .surface-card {
+    @apply rounded-xl2 border border-line bg-white;
+  }
+  .icon-btn {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted transition
+      hover:bg-surface hover:text-ink disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg bg-ink px-3 py-1.5 text-[13px]
+      font-medium text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg border border-line bg-transparent
+      px-3 py-1.5 text-[13px] text-ink transition hover:bg-surface;
+  }
+  .field {
+    @apply w-full rounded-lg border border-line bg-white px-3 py-2 text-[13px] text-ink
+      outline-none transition placeholder:text-faint focus:border-ink/25;
+  }
+}
+
+/* Markdown 正文：无气泡、宽行距，与主流对话产品一致 */
+.md {
+  font-size: 14.5px;
+  line-height: 1.78;
+  color: #24252a;
+  word-break: break-word;
+}
+.md > *:first-child {
+  margin-top: 0;
+}
+.md > *:last-child {
+  margin-bottom: 0;
+}
+.md p {
+  margin: 0.45rem 0;
+}
+.md ul,
+.md ol {
+  margin: 0.45rem 0;
+  padding-left: 1.15rem;
+}
+.md ul {
+  list-style: disc;
+}
+.md ol {
+  list-style: decimal;
+}
+.md li {
+  margin: 0.22rem 0;
+}
+.md li::marker {
+  color: #b6b6be;
+}
+.md strong {
+  color: #111114;
+  font-weight: 600;
+}
+.md a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.md code {
+  background: var(--surface);
+  padding: 0.08rem 0.32rem;
+  border-radius: 5px;
+  font-size: 0.86em;
+}
+.md pre {
+  background: #fafafa;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  overflow: auto;
+  margin: 0.55rem 0;
+}
+.md pre code {
+  background: transparent;
+  padding: 0;
+}
+.md blockquote {
+  margin: 0.55rem 0;
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--line);
+  color: var(--muted);
+}
+.md table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.55rem 0;
+  font-size: 13px;
+}
+.md th,
+.md td {
+  border: 1px solid var(--line);
+  padding: 6px 9px;
+  text-align: left;
+}
+.md th {
+  background: var(--subtle);
+  font-weight: 500;
+}
+
+/* 思考灰字：底部渐隐，避免长文本硬切 */
+.think-mask {
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent 100%);
+}
