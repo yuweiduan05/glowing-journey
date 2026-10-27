@@ -116,6 +116,16 @@ MODEL_FALLBACK_NAME=
 没 Key 也能完整演示：`MODEL_PROVIDER=mock` 会按规则真实产生 `tool_calls` 并读工具结果，
 不是前端假数据。
 
+**换模型前先跑演练**：
+
+```bash
+pnpm drill:model                # 不花钱：验证缺 Key / 上游不可达的错误映射
+pnpm drill:model -- --gateway   # 再用运行中的网关验 D1 / D5 / D8
+```
+
+配了 `MODEL_API_KEY` 后会额外验证：文本流式首 token、增量 `tool_calls` 拼接、
+推理模型的 `reasoning_content`。报告写到 `data/runtime/model-drill.json`。
+
 ### 4.5 Docker
 
 ```bash
@@ -153,6 +163,7 @@ pnpm test              # 网关 35 + 业务 22 用例
 pnpm contracts         # 导出 8 份 JSON Schema 到 contracts/
 pnpm eval:rag          # 36 条评测：可答 31/31 全命中 / 拒答正确率 4/5 / 边界准确率 97.2%
 node scripts/e2e.mjs   # D1–D8 端到端：8/8（干净 DB，含故障注入）
+pnpm drill:model       # 真实模型演练：失败路径必跑，配了 Key 再验文本/工具/思考
 cd services/rag && python -m unittest discover -s tests   # 26 条（含契约实例校验、状态图与多意图回归）
 curl :8083/health      # 看 vector_store=chroma、chunks=96、engine=langgraph
 ```

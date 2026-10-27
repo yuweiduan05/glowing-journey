@@ -129,6 +129,24 @@ business-api {"request_id":"trace-demo-001","conversation_id":"conv-trace-9","ms
 rag          [http] POST /chat rid=trace-demo-001 cid=conv-trace-9 status=200
 ```
 
+## 4.3 真实模型演练（换模型前必跑）
+
+```bash
+pnpm drill:model                # 无 Key 也能跑：缺 Key / 上游不可达
+pnpm drill:model -- --gateway   # 加验网关 D1 / D5 / D8
+```
+
+| 用例 | 断言 | 说明 |
+| --- | --- | --- |
+| 失败路径 · 缺少 Key | `UNAUTHORIZED` | 必须在发请求前拒绝，不能等上游 401 |
+| 失败路径 · 上游不可达 | `UPSTREAM_MODEL_ERROR` | 连接失败要映射成统一错误码 |
+| 文本流式 | 收到文本 + 首 token 耗时 | 首包耗时是前端指标的真实来源 |
+| 工具调用 | `query_inventory` 且 arguments 是合法 JSON | 验证增量 tool_calls 按 index 拼接 |
+| 思考增量 | `reasoning_content` 非空 | 仅推理模型；普通模型自动 SKIP |
+| 网关 D1/D5/D8 | 17 件 / 有引用 / `TOOL_UPSTREAM_ERROR` | 需网关已切真实模型、业务服务开 chaos |
+
+报告：`data/runtime/model-drill.json`（已忽略，不入库）。
+
 ## 5. 演示前的 5 分钟自检
 
 1. `pnpm dev` 后三个健康灯是否全绿；

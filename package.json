@@ -19,7 +19,8 @@
     "dev": "pnpm build:shared && concurrently -n api,gateway,rag,web -c blue,green,yellow,magenta \"pnpm dev:business\" \"pnpm dev:gateway\" \"pnpm dev:rag\" \"pnpm dev:web\"",
     "contracts": "pnpm --filter @app/gateway exec tsx scripts/export-contracts.ts",
     "eval:rag": "node scripts/run-eval.mjs",
-    "ci:local": "pnpm build:shared && pnpm -r typecheck && pnpm test && pnpm contracts"
+    "ci:local": "pnpm build:shared && pnpm -r typecheck && pnpm test && pnpm contracts",
+    "drill:model": "pnpm --filter @app/gateway exec tsx scripts/drill-model.ts"
   },
   "devDependencies": {
     "concurrently": "^9.1.0",
