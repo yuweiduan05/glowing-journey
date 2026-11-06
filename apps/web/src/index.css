@@ -5,13 +5,14 @@
 :root {
   color-scheme: light;
   --canvas: #ffffff;
-  --subtle: #fafafa;
-  --surface: #f4f4f5;
-  --line: #e8e8ec;
-  --ink: #1d1e20;
-  --muted: #6b6b73;
-  --faint: #9a9aa2;
-  --accent: #2563eb;
+  --base: #f4f8ff;
+  --subtle: #f5f8ff;
+  --surface: #edf2fe;
+  --line: #e1e8f5;
+  --ink: #0f172a;
+  --muted: #5b647a;
+  --faint: #8a93a8;
+  --accent: #4d6bfe;
 }
 
 html,
@@ -22,11 +23,47 @@ body,
 
 body {
   margin: 0;
-  background: var(--canvas);
+  background: var(--base);
   color: var(--ink);
-  font-family: '"PingFang SC"', 'Microsoft YaHei', system-ui, sans-serif;
+  font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* 流动背景层：垫在内容之下，永不拦截交互 */
+.wave-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.wave-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* WebGL 不可用时的兜底：三段低饱和色雾缓慢漂移 */
+.wave-fallback {
+  position: absolute;
+  inset: -25%;
+  background:
+    radial-gradient(38% 45% at 22% 28%, rgba(169, 188, 255, 0.65), transparent 70%),
+    radial-gradient(42% 48% at 78% 22%, rgba(194, 220, 213, 0.55), transparent 72%),
+    radial-gradient(46% 50% at 62% 84%, rgba(190, 205, 255, 0.6), transparent 70%),
+    #f4f8ff;
+  filter: blur(48px);
+  animation: wave-drift 26s ease-in-out infinite alternate;
+}
+@keyframes wave-drift {
+  from {
+    transform: translate3d(-2%, -1%, 0) scale(1.02);
+  }
+  to {
+    transform: translate3d(2%, 2%, 0) scale(1.06);
+  }
 }
 
 *:focus-visible {
@@ -40,9 +77,35 @@ textarea:focus-visible {
   outline: none;
 }
 
-/* 输入区已经有 focus-within 边框，再叠一圈 outline 会变成双层框 */
-textarea:focus-visible {
-  outline: none;
+/* 尊重系统减少动效偏好：关闭所有装饰性动画，界面保持完全可用 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 思考指示三点：依次淡起，克制不弹跳 */
+.thinking-dots {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+.thinking-dots > span {
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  animation: wave 1.2s ease-in-out infinite;
+}
+.thinking-dots > span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.thinking-dots > span:nth-child(3) {
+  animation-delay: 0.3s;
 }
 
 ::-webkit-scrollbar {
@@ -50,12 +113,12 @@ textarea:focus-visible {
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #dcdce2;
+  background: #dbe3f3;
   border: 3px solid #fff;
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #c4c4cc;
+  background: #c3cee6;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -67,18 +130,18 @@ textarea:focus-visible {
   }
   .icon-btn {
     @apply inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted transition
-      hover:bg-surface hover:text-ink disabled:cursor-not-allowed disabled:opacity-40;
+      hover:bg-surface hover:text-ink active:scale-95 disabled:cursor-not-allowed disabled:opacity-40;
   }
   .chip {
     @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium;
   }
   .btn-primary {
     @apply inline-flex items-center justify-center gap-1.5 rounded-lg bg-ink px-3 py-1.5 text-[13px]
-      font-medium text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-40;
+      font-medium text-white transition hover:bg-black active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40;
   }
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-1.5 rounded-lg border border-line bg-transparent
-      px-3 py-1.5 text-[13px] text-ink transition hover:bg-surface;
+      px-3 py-1.5 text-[13px] text-ink transition hover:bg-surface active:scale-[0.97];
   }
   .field {
     @apply w-full rounded-lg border border-line bg-white px-3 py-2 text-[13px] text-ink
@@ -90,7 +153,7 @@ textarea:focus-visible {
 .md {
   font-size: 14.5px;
   line-height: 1.78;
-  color: #24252a;
+  color: #1b2436;
   word-break: break-word;
 }
 .md > *:first-child {
@@ -117,10 +180,10 @@ textarea:focus-visible {
   margin: 0.22rem 0;
 }
 .md li::marker {
-  color: #b6b6be;
+  color: #a8b1c6;
 }
 .md strong {
-  color: #111114;
+  color: #0b1220;
   font-weight: 600;
 }
 .md a {
@@ -135,7 +198,7 @@ textarea:focus-visible {
   font-size: 0.86em;
 }
 .md pre {
-  background: #fafafa;
+  background: #f4f8ff;
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 10px 12px;

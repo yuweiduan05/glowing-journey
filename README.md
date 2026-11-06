@@ -1,6 +1,6 @@
-# 智联贸易 · 业务智能体工作台
+# 知言 · 智联贸易业务智能体
 
-> 面向中小贸易企业的「售前—库存—售后」一体化业务智能体。
+> **知言**（知其所问，言必有据）——面向中小贸易企业的「售前—库存—售后」一体化业务智能体。
 > **场景 3（业务智能体）为主体，场景 2（企业内部知识库 RAG）作为其中一个工具内嵌**，
 > 让「网关双链路 / SSE 透传 / RAG 全链路 / 状态图自适应 / 回答边界 / LangGraph」六项能力在一次演示里全部可验。
 
@@ -26,7 +26,7 @@
 浏览器 (React + Vite + Tailwind, :5173)
    │  fetch + ReadableStream 解析 SSE（ADR-004）
    ▼
-统一模型网关 (:8081)  ── 鉴权注入 customer_id / 双链路 / SSE 9 事件 / 工具编排 / 错误收口
+统一模型网关 (:8081)  ── 鉴权注入 customer_id / 双链路 / SSE 10 事件 / 工具编排 / 错误收口
    ├─► 上游模型（mock 确定性 / 任意 OpenAI 兼容供应商）
    ├─► 业务 Mock 服务 (:8082)  库存 · 订单 · 工单（SQLite + 确定性种子）
    └─► RAG 服务 (:8083)       FastAPI + LangGraph 六节点 + Chroma
@@ -160,11 +160,11 @@ docker compose up --build
 
 ```bash
 pnpm test              # 网关 35 + 业务 22 用例
+pnpm test:rag          # RAG 26 条（含契约实例校验、状态图与多意图回归）
 pnpm contracts         # 导出 8 份 JSON Schema 到 contracts/
 pnpm eval:rag          # 36 条评测：可答 31/31 全命中 / 拒答正确率 4/5 / 边界准确率 97.2%
 node scripts/e2e.mjs   # D1–D8 端到端：8/8（干净 DB，含故障注入）
 pnpm drill:model       # 真实模型演练：失败路径必跑，配了 Key 再验文本/工具/思考
-cd services/rag && python -m unittest discover -s tests   # 26 条（含契约实例校验、状态图与多意图回归）
 curl :8083/health      # 看 vector_store=chroma、chunks=96、engine=langgraph
 ```
 
@@ -215,3 +215,4 @@ curl :8083/health      # 看 vector_store=chroma、chunks=96、engine=langgraph
 - `docs/spike-sse.md`：SSE 透传 spike 记录
 - `docs/tech-review.md`：技术选型评估（六维度 + 量化瓶颈 + 改进清单）
 - `docs/ui-redesign.md`：Web 端改版说明（诊断 / 主流对照 / 方案 / 验证）
+- `docs/ui-background.md`：流动背景与配色改造（三种方案对比 + WebGL 着色器实施记录）

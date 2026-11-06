@@ -25,6 +25,7 @@ import {
 } from './icons';
 import { Reasoning } from './Reasoning';
 import { Sources } from './Sources';
+import { Logo } from './Logo';
 
 export type { ChatMessage };
 
@@ -113,7 +114,7 @@ function MessageItem({
   if (msg.role === 'user') {
     return (
       <div className="flex animate-fade-up justify-end">
-        <div className="max-w-[85%] rounded-2xl bg-surface px-4 py-2.5 text-[14px] leading-7 text-ink">
+        <div className="max-w-[85%] rounded-2xl bg-[#e9eeff] px-4 py-2.5 text-[14px] leading-7 text-ink">
           {msg.attachments?.length ? (
             <div className="mb-1.5 flex flex-wrap gap-1.5">
               {msg.attachments.map((a) => (
@@ -164,7 +165,7 @@ function MessageItem({
         <div className="md">
           <ReactMarkdown>{msg.content}</ReactMarkdown>
           {msg.streaming && (
-            <span className="ml-0.5 inline-block h-4 w-[2px] animate-pulse bg-ink/50 align-middle" />
+            <span className="ml-0.5 inline-block h-4 w-[3px] animate-pulse rounded-full bg-ink/40 align-middle" />
           )}
         </div>
       ) : msg.streaming ? null : (
@@ -205,43 +206,74 @@ function MessageItem({
   );
 }
 
-function EmptyState({ onPick }: { onPick: (text: string) => void }) {
+function EmptyState({
+  busy,
+  knowledge,
+  onKnowledge,
+  onSend,
+  onStop,
+}: {
+  busy: boolean;
+  knowledge: boolean;
+  onKnowledge: (v: boolean) => void;
+  onSend: (text: string, attachments?: Attachment[]) => void;
+  onStop: () => void;
+}) {
   return (
-    <div className="mx-auto flex min-h-full w-full max-w-[720px] flex-col justify-center px-5 py-12">
-      <h2 className="text-[26px] font-semibold tracking-tight text-ink sm:text-[28px]">有什么可以帮你？</h2>
-      <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
-        查实时库存、追订单物流、建售后工单，或问产品与售后政策。每个结论都会给出依据。
-      </p>
+    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-8">
+      <div className="m-auto w-full max-w-[720px]">
+        <div className="mb-7 flex flex-col items-center text-center">
+          <Logo
+            size={48}
+            variant="solid"
+            className="shadow-[0_10px_28px_-10px_rgba(77,107,254,0.65)]"
+          />
+          <p className="mt-4 text-[10.5px] uppercase tracking-[0.18em] text-faint">
+            智联贸易 · 业务智能体
+          </p>
+          <h2 className="mt-1.5 text-[24px] font-semibold tracking-tight text-ink sm:text-[26px]">
+            你好，我是知言
+          </h2>
+          <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
+            知其所问，言必有据。查库存、追订单、建工单、问政策。
+          </p>
+        </div>
 
-      <div className="mt-7 grid gap-2 sm:grid-cols-2">
-        {CAPABILITIES.map((c) => (
-          <button
-            key={c.title}
-            onClick={() => onPick(c.prompt)}
-            className="group/cap rounded-xl border border-line bg-white p-3.5 text-left transition hover:border-ink/15 hover:bg-subtle"
-          >
-            <span className="flex items-center gap-2">
-              <span className="grid h-6 w-6 place-items-center rounded-md bg-surface text-muted transition group-hover/cap:text-ink">
-                {c.icon}
-              </span>
-              <span className="text-[13px] font-medium text-ink">{c.title}</span>
+        <Composer
+          busy={busy}
+          knowledge={knowledge}
+          onKnowledge={onKnowledge}
+          onSend={onSend}
+          onStop={onStop}
+        />
+
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
+          {CAPABILITIES.map((c) => (
+            <button
+              key={c.title}
+              onClick={() => onSend(c.prompt)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[12px] text-muted transition duration-200 hover:border-ink/15 hover:bg-surface hover:text-ink active:scale-[0.98]"
+            >
+              {c.icon}
+              {c.title}
+            </button>
+          ))}
+        </div>
+
+        <p className="mt-3 text-center text-[11px] text-faint">
+          也可以试试
+          {BOUNDARY_SAMPLES.map((b, i) => (
+            <span key={b.label}>
+              {i === 0 ? '：' : ' · '}
+              <button
+                onClick={() => onSend(b.prompt)}
+                className="underline decoration-line decoration-1 underline-offset-4 transition hover:text-muted hover:decoration-ink/25"
+              >
+                {b.label}
+              </button>
             </span>
-            <span className="mt-1.5 block text-[11.5px] leading-relaxed text-muted">{c.desc}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11.5px]">
-        <span className="text-faint">试试边界情况：</span>
-        {BOUNDARY_SAMPLES.map((b) => (
-          <button
-            key={b.label}
-            onClick={() => onPick(b.prompt)}
-            className="text-muted underline decoration-line decoration-1 underline-offset-4 transition hover:text-ink hover:decoration-ink/30"
-          >
-            {b.label}
-          </button>
-        ))}
+          ))}
+        </p>
       </div>
     </div>
   );
@@ -250,11 +282,13 @@ function EmptyState({ onPick }: { onPick: (text: string) => void }) {
 function Composer({
   busy,
   knowledge,
+  onKnowledge,
   onSend,
   onStop,
 }: {
   busy: boolean;
   knowledge: boolean;
+  onKnowledge: (v: boolean) => void;
   onSend: (text: string, attachments?: Attachment[]) => void;
   onStop: () => void;
 }) {
@@ -335,8 +369,12 @@ function Composer({
             setDragging(false);
             void addFiles(e.dataTransfer.files);
           }}
-          className={`rounded-[18px] border bg-white shadow-composer transition ${
-            dragging ? 'border-ink/30 bg-subtle' : 'border-line focus-within:border-ink/20'
+          className={`rounded-[24px] border bg-white/85 backdrop-blur-md shadow-composer transition-colors duration-300 ${
+            busy
+              ? 'animate-breathe border-accent/25'
+              : dragging
+                ? 'border-ink/30 bg-subtle'
+                : 'border-line focus-within:border-ink/20'
           }`}
         >
           <input
@@ -395,6 +433,7 @@ function Composer({
               }
             }}
             aria-label="消息输入框"
+            title="Enter 发送，Shift + Enter 换行"
             placeholder="问库存、订单、售后问题，或添加附件…"
             className="max-h-[180px] w-full resize-none bg-transparent px-4 pt-3.5 text-[14px] leading-7 text-ink outline-none placeholder:text-faint"
           />
@@ -404,19 +443,31 @@ function Composer({
               <button
                 onClick={() => inputRef.current?.click()}
                 className="icon-btn h-7 w-7"
-                title="添加附件（文本 / CSV / JSON / 代码）"
+                title="添加附件（文本 / CSV / JSON / 代码，≤8MB）"
                 aria-label="添加附件"
               >
                 <IconPaperclip size={15} />
               </button>
+              <button
+                onClick={() => onKnowledge(!knowledge)}
+                aria-pressed={knowledge}
+                title={knowledge ? '知识库检索已开启，点击关闭' : '知识库检索已关闭，点击开启'}
+                className={`inline-flex h-7 items-center gap-1 rounded-full border px-2.5 text-[12px] transition duration-200 ${
+                  knowledge
+                    ? 'border-accent/25 bg-accent-soft text-accent-strong'
+                    : 'border-line text-muted hover:bg-surface hover:text-ink'
+                }`}
+              >
+                <IconBook size={12} />
+                知识库
+              </button>
               {dragging && <span className="text-[11px] text-faint">松开以添加</span>}
-              {!knowledge && <span className="text-[11px] text-faint">未启用知识库</span>}
             </div>
 
             {busy ? (
               <button
                 onClick={onStop}
-                className="grid h-8 w-8 place-items-center rounded-full bg-ink text-white transition hover:bg-black"
+                className="grid h-8 w-8 place-items-center rounded-full bg-ink text-white transition hover:bg-black active:scale-95"
                 aria-label="停止生成"
                 title="停止生成"
               >
@@ -426,7 +477,7 @@ function Composer({
               <button
                 onClick={submit}
                 disabled={!canSend}
-                className="grid h-8 w-8 place-items-center rounded-full bg-ink text-white transition hover:bg-black disabled:cursor-not-allowed disabled:bg-surface disabled:text-faint"
+                className="grid h-8 w-8 place-items-center rounded-full bg-accent text-white transition duration-200 hover:bg-accent-strong active:scale-95 disabled:cursor-not-allowed disabled:bg-surface disabled:text-faint"
                 aria-label="发送"
                 title="发送（Enter）"
               >
@@ -436,7 +487,9 @@ function Composer({
           </div>
         </div>
         <p className="mt-2 text-center text-[10.5px] text-faint">
-          Enter 发送 · Shift + Enter 换行 · 附件支持文本 / CSV / JSON / 代码（≤8MB，最多 {MAX_FILES} 个）
+          <span className="font-medium tracking-wide text-muted">知其所问，言必有据</span>
+          <span className="mx-1.5">·</span>
+          内容由 AI 生成，请仔细甄别
         </p>
       </div>
     </div>
@@ -447,6 +500,7 @@ export function ChatPanel({
   messages,
   busy,
   knowledge,
+  onKnowledge,
   onSend,
   onStop,
   onRetry,
@@ -456,6 +510,7 @@ export function ChatPanel({
   messages: ChatMessage[];
   busy: boolean;
   knowledge: boolean;
+  onKnowledge: (v: boolean) => void;
   onSend: (text: string, attachments?: Attachment[]) => void;
   onStop: () => void;
   onRetry: () => void;
@@ -498,22 +553,34 @@ export function ChatPanel({
 
   return (
     <section className="flex min-h-0 min-w-0 flex-1 flex-col">
-      <div ref={listRef} onScroll={handleScroll} className="min-h-0 flex-1 overflow-y-auto">
-        {messages.length === 0 ? (
-          <div className="h-full">
-            <EmptyState onPick={onSend} />
+      {messages.length === 0 ? (
+        <EmptyState
+          busy={busy}
+          knowledge={knowledge}
+          onKnowledge={onKnowledge}
+          onSend={onSend}
+          onStop={onStop}
+        />
+      ) : (
+        <>
+          <div ref={listRef} onScroll={handleScroll} className="min-h-0 flex-1 overflow-y-auto">
+            <div className="mx-auto w-full max-w-[760px] space-y-7 px-4 py-6 sm:px-6">
+              {messages.map((m) => (
+                <MessageItem key={m.id} msg={m} onRetry={onRetry} onHandoff={onHandoff} />
+              ))}
+              <div ref={endRef} />
+            </div>
           </div>
-        ) : (
-          <div className="mx-auto w-full max-w-[760px] space-y-8 px-4 py-6 sm:px-6">
-            {messages.map((m) => (
-              <MessageItem key={m.id} msg={m} onRetry={onRetry} onHandoff={onHandoff} />
-            ))}
-            <div ref={endRef} />
-          </div>
-        )}
-      </div>
 
-      <Composer busy={busy} knowledge={knowledge} onSend={onSend} onStop={onStop} />
+          <Composer
+            busy={busy}
+            knowledge={knowledge}
+            onKnowledge={onKnowledge}
+            onSend={onSend}
+            onStop={onStop}
+          />
+        </>
+      )}
     </section>
   );
 }

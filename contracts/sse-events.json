@@ -8,6 +8,10 @@
     "direction": "server->client"
   },
   {
+    "event": "reasoning",
+    "direction": "server->client"
+  },
+  {
     "event": "tool_call",
     "direction": "server->client"
   },

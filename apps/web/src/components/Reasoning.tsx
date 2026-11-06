@@ -102,7 +102,11 @@ export function Reasoning({
     return (
       <div className="mb-4" aria-live="polite">
         <div className="flex items-center gap-2 text-[12px] text-muted">
-          <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-ink/40" />
+          <span className="thinking-dots text-ink/50">
+            <span />
+            <span />
+            <span />
+          </span>
           正在思考
         </div>
         {reasoning && (
@@ -137,7 +141,7 @@ export function Reasoning({
       </button>
 
       {open && (
-        <div className="mt-2 space-y-3 rounded-xl bg-subtle p-3">
+        <div className="mt-2 animate-fade-in space-y-3 rounded-xl bg-subtle p-3">
           {reasoning && (
             <p className="whitespace-pre-wrap text-[12.5px] leading-[1.9] text-muted">{reasoning}</p>
           )}

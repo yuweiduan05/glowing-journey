@@ -12,6 +12,7 @@
     "build:shared": "pnpm --filter @app/shared build",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
+    "test:rag": "node scripts/run-rag-tests.mjs",
     "dev:business": "pnpm --filter @app/business-api dev",
     "dev:gateway": "pnpm --filter @app/gateway dev",
     "dev:web": "pnpm --filter @app/web dev",

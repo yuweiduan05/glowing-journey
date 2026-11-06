@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { ChatPanel } from './components/ChatPanel';
 import { SettingsSheet } from './components/SettingsSheet';
+import { WaveBackground } from './components/WaveBackground';
 import { CONVERSATIONS, type ConversationMeta } from './lib/demo';
 import type { ChatMessage } from './lib/types';
 import {
@@ -352,7 +353,10 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-full overflow-hidden bg-canvas">
+    <div className="relative flex h-full overflow-hidden bg-transparent">
+      {/* 空态缓慢流动，进入对话后暂停：读答案时背景保持静止 */}
+      <WaveBackground paused={messages.length > 0} />
+
       <Sidebar
         open={sidebarOpen}
         activeId={activeId}
@@ -364,16 +368,14 @@ export default function App() {
         onNew={handleNew}
         onDelete={handleDelete}
         onClose={() => setSidebarOpen(false)}
+        onOpenSettings={() => setSettingsOpen(true)}
       />
 
       <div className="flex min-w-0 flex-1 flex-col">
         <Header
-          title={activeConvo?.title ?? '业务智能体'}
-          health={health}
-          model={model}
+          title={activeConvo?.title ?? '知言'}
           sidebarOpen={sidebarOpen}
           onToggleSidebar={() => setSidebarOpen((v) => !v)}
-          onOpenSettings={() => setSettingsOpen(true)}
           compact={compactHeader}
         />
 
@@ -381,6 +383,7 @@ export default function App() {
           messages={messages}
           busy={busy}
           knowledge={knowledge}
+          onKnowledge={setKnowledge}
           onSend={handleSend}
           onStop={() => abortRef.current?.abort()}
           onRetry={handleRetry}

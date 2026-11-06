@@ -33,3 +33,10 @@ Thumbs.db
 
 # RAG Python 依赖（本地 --target 安装目录）
 services/rag/.pylibs/
+
+# 个人 / 内部材料（不随作品提交；文件保留在本地，仅不进仓库）
+/.workbuddy/
+/项目路线规划.md
+/审查报告.md
+/前端审查报告.md
+/腾讯AI Coding 课程作业.pdf

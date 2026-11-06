@@ -27,7 +27,7 @@ export function Sources({ citations }: { citations: Citation[] }) {
       </button>
 
       {open && (
-        <ol className="mt-2 space-y-1 rounded-xl bg-subtle p-2">
+        <ol className="mt-2 animate-fade-in space-y-1 rounded-xl bg-subtle p-2">
           {citations.map((c, i) => {
             const isOpen = active === c.chunk_id;
             return (

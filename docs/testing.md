@@ -4,8 +4,11 @@
 
 ```bash
 pnpm test                                              # 网关 + 业务
-cd services/rag && python -m unittest discover -s tests  # RAG
+pnpm test:rag                                          # RAG（自动探测 .pylibs / .venv 并注入 PYTHONPATH）
 ```
+
+> 直接 `cd services/rag && python -m unittest` 会因 `.pylibs` 不在 `sys.path` 报 `ImportError: pydantic`，
+> 且 Windows 的 cmd / PowerShell 不支持 `PYTHONPATH=x cmd` 前缀语法 —— 所以统一走 `pnpm test:rag`。
 
 | 套件 | 用例数 | 覆盖点 |
 | --- | --- | --- |
