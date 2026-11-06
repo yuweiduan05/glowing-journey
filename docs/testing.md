@@ -28,6 +28,20 @@ business-api        Tests 22 passed (22)
 rag (unittest)      Ran 26 tests ... OK
 ```
 
+### 1.1 干净克隆复核（v1.0-final）
+
+只拿仓库里的跟踪文件，在空目录重跑一遍，确认没有「本地能跑、别人拉下来跑不了」的隐式依赖：
+
+```bash
+git clone <repo> _verify && cd _verify
+pnpm install --frozen-lockfile        # lockfile 与 package.json 一致
+pnpm build:shared && pnpm -r typecheck # 4 个包全过
+pnpm test                             # 57 条（网关 35 + 业务 22）
+```
+
+2026-11-06 实测通过。RAG 侧另需按 §4.2 安装 Python 依赖（`.pylibs` / `.venv` 均不入库），
+首次启动会由 `ensure_ready()` 自动建库，无需手工 ingest。
+
 ## 2. 契约
 
 ```bash
