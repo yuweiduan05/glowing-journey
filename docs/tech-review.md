@@ -106,10 +106,11 @@ Python 层的词覆盖扫描；更糟的是 Chroma 实现里 `iter_all()` 每次
 | pnpm 12 专属配置 | `allowBuilds` 是 pnpm 12 语法，队友用 pnpm 9/10 会读不懂 | 锁 `packageManager` 字段，或退回 `onlyBuiltDependencies` |
 | ~~无 CI~~ | ~~52 条测试靠手动跑~~ | ✅ 已建 `.github/workflows/ci.yml`（typecheck + 三套单测 + 契约漂移检查 + docker build job）；但仓库尚未 `git init`，CI 从未真正触发过 |
 | ~~无跨服务 trace~~ | ~~网关有 request_id，但没传给下游，日志对不上~~ | ✅ 已完成（2026-10-22）：透传 `X-Request-Id`/`X-Conversation-Id`，三服务日志统一字段（见 §7 第 4 条） |
-| Docker 未实跑 | `Dockerfile.node` 跨阶段复制 pnpm 符号链接的 `node_modules`，很可能断链 | 改用 `pnpm deploy --prod` 或在最终阶段重新 `pnpm install --prod` |
+| ~~Docker 未实跑~~ | ~~`Dockerfile.node` 跨阶段复制 pnpm 符号链接的 `node_modules`，很可能断链~~ | ✅ 构建已验证（2026-11-08）：CI 的 docker job 在 ubuntu-latest 上 `docker compose build` 四个镜像全过，断链风险未发生；运行态仍未验证 |
 
-**诚实说明**：本机没有 Docker，四个镜像**没有真正 `docker compose up` 验证过**；README 里写的是设计意图，
-不是已验证结论。这一条应在交付前补验。
+**验证边界**：`docker compose build` 已在 CI 实跑通过，跨阶段复制 `node_modules` 的隐患没有兑现；
+但 `docker compose up` 的运行态（端口映射、healthcheck、nginx 对 SSE 的反代）仍未验证——本机没有 Docker。
+交付口径以 README §4.5 为准，不把「能构建」说成「能跑」。
 
 ---
 

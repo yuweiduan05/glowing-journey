@@ -1,5 +1,7 @@
 # 知言 · 智联贸易业务智能体
 
+[![CI](https://github.com/yuweiduan05/glowing-journey/actions/workflows/ci.yml/badge.svg)](https://github.com/yuweiduan05/glowing-journey/actions/workflows/ci.yml)
+
 > **知言**（知其所问，言必有据）——面向中小贸易企业的「售前—库存—售后」一体化业务智能体。
 > **场景 3（业务智能体）为主体，场景 2（企业内部知识库 RAG）作为其中一个工具内嵌**，
 > 让「网关双链路 / SSE 透传 / RAG 全链路 / 状态图自适应 / 回答边界 / LangGraph」六项能力在一次演示里全部可验。
@@ -51,7 +53,7 @@ services/rag/             RAG 服务（Python 3.13 + FastAPI + LangGraph + Chrom
 data/kb/                  知识库 12 篇（4 类 doc_type，2 篇表格型，1 篇中英混排）
 data/eval/                36 条评测集 + report.json
 contracts/                由 pnpm contracts 导出的 JSON Schema / 事件 / 错误码
-docker/ + docker-compose.yml   4 容器编排（未经实跑验证，见 §4.5 诚实说明）
+docker/ + docker-compose.yml   4 容器编排（镜像构建已在 CI 验证，运行态未验证，见 §4.5）
 docs/                     架构、接口、ADR、演示脚本、测试与知识库说明
 ```
 
@@ -133,9 +135,10 @@ docker compose up --build
 # web → http://127.0.0.1:5173（nginx 把 /v1 反代到 gateway，SSE 关闭缓冲）
 ```
 
-> **诚实说明**：本机没有 Docker，compose 方案**未经真实运行验证**，上面的命令是设计意图而非验收结论；
-> 复现请以 §4.3 的 `pnpm dev` 为准（该路径已验证）。另注意 compose 中 gateway / business-api / rag
-> 只做了容器间 `expose`，未映射宿主端口——按设计只有 web 对外。
+> **验证边界（说清楚免得误会）**：`docker compose build` 四个镜像已在 CI 上实跑通过
+> （`.github/workflows/ci.yml` 的 docker job）；但 `docker compose up` 的**运行态**尚未验证——
+> 本机没有 Docker，CI 只构建不启动。现场复现请以 §4.3 的 `pnpm dev` 为准（该路径已完整验证）。
+> 另注意 compose 中 gateway / business-api / rag 只做了容器间 `expose`，未映射宿主端口——按设计只有 web 对外。
 
 ---
 
