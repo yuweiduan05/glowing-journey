@@ -19,6 +19,7 @@
 | 回答边界 | `services/rag/app/boundary.py` + 网关 `handoff` | D6 越界拒答、D7 未覆盖转人工 |
 | LangChain/LangGraph | 同上，`engine=langgraph` 写在 `/health` | `curl :8083/health` |
 | 2–3 个业务工具 | `packages/shared/src/tools.ts` 注册 4 个（3 业务 + 1 RAG） | 界面「工具轨迹」卡片 |
+| AI 协作过程 | `docs/xbuddy/`：8 张「AI 生成 → 验出问题 → 修正 → 回归」案例卡 + 五阶段时间线 | `docs/xbuddy/cases.md` |
 
 ---
 
@@ -219,3 +220,6 @@ curl :8083/health      # 看 vector_store=chroma、chunks=96、engine=langgraph
 - `docs/tech-review.md`：技术选型评估（六维度 + 量化瓶颈 + 改进清单）
 - `docs/ui-redesign.md`：Web 端改版说明（诊断 / 主流对照 / 方案 / 验证）
 - `docs/ui-background.md`：流动背景与配色改造（三种方案对比 + WebGL 着色器实施记录）
+- `docs/xbuddy/README.md`：AI 协作归档说明（口径 / 协作规矩 / 五阶段时间线）
+- `docs/xbuddy/cases.md`：8 张案例卡（AI 生成 → 验出问题 → 修正 → 回归证据）
+- `作品演示录屏.mp4`：32s 实跑录屏（D1–D7，1440×900）
